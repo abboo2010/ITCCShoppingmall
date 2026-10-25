@@ -124,7 +124,9 @@
   /* ---------- floor plan tabs ---------- */
   var planTabs = Array.prototype.slice.call(document.querySelectorAll("#planTabs [role=tab]"));
   var planPanels = Array.prototype.slice.call(document.querySelectorAll(".plan-panel"));
+  var activePlan = 0;
   function showPlan(i, focus) {
+    activePlan = i;
     planTabs.forEach(function (t, k) {
       var on = k === i;
       t.setAttribute("aria-selected", on ? "true" : "false");
@@ -147,26 +149,102 @@
   });
   showPlan(0);
 
-  // enlarge a plan in a lightbox
+  /* ---------- shop lots: 3D hover + tooltip ---------- */
+  var PLAN = window.ITCC_PLAN || {};
+  var SHOPS = window.ITCC_LOT_SHOPS || {};
+  var FLOOR_NAMES = { g: "Ground Floor", "1": "First Floor", "2": "Second Floor", "3": "Third Floor" };
+  var FLOOR_KEYS = ["g", "1", "2", "3"];
+
+  function buildLots(layer, key) {
+    layer.textContent = "";
+    var f = PLAN[key];
+    if (!f) return;
+    f.lots.forEach(function (l) {
+      var d = el("div", "lot");
+      d.style.left = (l.x / f.w * 100) + "%";
+      d.style.top = (l.y / f.h * 100) + "%";
+      d.style.width = (l.w / f.w * 100) + "%";
+      d.style.height = (l.h / f.h * 100) + "%";
+      d.setAttribute("data-id", l.id);
+      d.setAttribute("data-floor", key);
+      layer.appendChild(d);
+    });
+  }
+  document.querySelectorAll(".plan-wrap[data-floor]").forEach(function (w) {
+    buildLots(w.querySelector(".lots"), w.getAttribute("data-floor"));
+  });
+
+  var tip = document.getElementById("lotTip");
+  var tipLot = null;
+  function showTip(lot) {
+    var shop = SHOPS[lot.getAttribute("data-id")];
+    tip.textContent = "";
+    tip.appendChild(el("strong", null, shop ? shop.name : "Shop details coming soon"));
+    tip.appendChild(el("span", "tip-floor", FLOOR_NAMES[lot.getAttribute("data-floor")] || ""));
+    if (shop && shop.phone) tip.appendChild(el("span", "tip-phone", "Tel: " + shop.phone));
+    tip.hidden = false;
+    var r = lot.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight;
+    var top = r.top - th - 12;
+    if (top < 8) top = r.bottom + 12;
+    var left = Math.max(8, Math.min(window.innerWidth - tw - 8, r.left + r.width / 2 - tw / 2));
+    tip.style.top = top + "px";
+    tip.style.left = left + "px";
+    tipLot = lot;
+  }
+  function hideTip() {
+    tip.hidden = true;
+    if (tipLot) {
+      tipLot.classList.remove("is-active");
+      tipLot.style.removeProperty("--rx");
+      tipLot.style.removeProperty("--ry");
+    }
+    tipLot = null;
+  }
+  document.addEventListener("mouseover", function (e) {
+    var l = e.target.closest && e.target.closest(".lot");
+    if (l && l !== tipLot) { hideTip(); l.classList.add("is-active"); showTip(l); }
+  });
+  document.addEventListener("mouseout", function (e) {
+    var l = e.target.closest && e.target.closest(".lot");
+    if (l && !(e.relatedTarget && l.contains(e.relatedTarget))) hideTip();
+  });
+  document.addEventListener("mousemove", function (e) {
+    var l = e.target.closest && e.target.closest(".lot");
+    if (!l) return;
+    var r = l.getBoundingClientRect();
+    var px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+    l.style.setProperty("--ry", (px * 16).toFixed(1) + "deg");
+    l.style.setProperty("--rx", (-py * 16).toFixed(1) + "deg");
+  });
+  // touch screens: tap a lot to show it, tap elsewhere to hide
+  document.addEventListener("click", function (e) {
+    var l = e.target.closest && e.target.closest(".lot");
+    if (l) { hideTip(); l.classList.add("is-active"); showTip(l); }
+    else if (!e.target.closest("#lotTip")) hideTip();
+  });
+  window.addEventListener("scroll", hideTip, { passive: true });
+
+  /* ---------- enlarge the current plan in a lightbox ---------- */
   var lb = document.getElementById("lightbox");
   var lbImg = document.getElementById("lightboxImg");
+  var lbLots = document.getElementById("lbLots");
   var lbClose = document.getElementById("lightboxClose");
-  var lastZoom = null;
+  var enlargeBtn = document.getElementById("enlargeBtn");
   function closeLightbox() {
+    hideTip();
     lb.hidden = true;
     document.body.style.overflow = "";
-    if (lastZoom) lastZoom.focus();
+    enlargeBtn.focus();
   }
-  document.querySelectorAll(".plan-zoom").forEach(function (b) {
-    b.addEventListener("click", function () {
-      var img = b.querySelector("img");
-      lbImg.src = img.currentSrc || img.src;
-      lbImg.alt = img.alt;
-      lastZoom = b;
-      lb.hidden = false;
-      document.body.style.overflow = "hidden";
-      lbClose.focus();
-    });
+  enlargeBtn.addEventListener("click", function () {
+    var key = FLOOR_KEYS[activePlan];
+    var img = planPanels[activePlan].querySelector("img");
+    lbImg.src = img.currentSrc || img.src;
+    lbImg.alt = img.alt;
+    buildLots(lbLots, key);
+    lb.hidden = false;
+    document.body.style.overflow = "hidden";
+    lbClose.focus();
   });
   lbClose.addEventListener("click", closeLightbox);
   lb.addEventListener("click", function (e) { if (e.target === lb) closeLightbox(); });

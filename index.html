@@ -87,7 +87,7 @@
 <section class="section" id="floorplans">
   <div class="section-head">
     <div><div class="eyebrow">FLOOR PLANS</div><h2>Find your way around</h2></div>
-    <div class="result-count">Tap a plan to enlarge it</div>
+    <div class="plan-tools"><span class="result-count">Hover over (or tap) a shop for its name and phone</span><button type="button" class="btn white" id="enlargeBtn">Enlarge plan</button></div>
   </div>
   <div class="filters" id="planTabs" role="tablist" aria-label="Choose floor">
     <button type="button" role="tab" id="ptab-g" aria-controls="ppanel-g" aria-selected="true" data-key="g">Ground Floor</button>
@@ -97,24 +97,24 @@
   </div>
   <div class="plan-card">
     <div class="plan-panel" role="tabpanel" id="ppanel-g" aria-labelledby="ptab-g">
-      <button type="button" class="plan-zoom" aria-label="Enlarge Ground Floor plan"><img src="images/ground-floor.png" alt="Ground Floor plan of ITCC Penampang Commercial Shopping Mall" width="1516" height="910"></button>
+      <div class="plan-wrap" data-floor="g"><img src="images/ground-floor.png" alt="Ground Floor plan of ITCC Penampang Commercial Shopping Mall" width="1516" height="910"><div class="lots" aria-hidden="true"></div></div>
     </div>
     <div class="plan-panel" role="tabpanel" id="ppanel-1" aria-labelledby="ptab-1" hidden>
-      <button type="button" class="plan-zoom" aria-label="Enlarge First Floor plan"><img src="images/first-floor.png" alt="First Floor plan of ITCC Penampang Commercial Shopping Mall" width="1614" height="833" loading="lazy"></button>
+      <div class="plan-wrap" data-floor="1"><img src="images/first-floor.png" alt="First Floor plan of ITCC Penampang Commercial Shopping Mall" width="1614" height="833" loading="lazy"><div class="lots" aria-hidden="true"></div></div>
     </div>
     <div class="plan-panel" role="tabpanel" id="ppanel-2" aria-labelledby="ptab-2" hidden>
-      <button type="button" class="plan-zoom" aria-label="Enlarge Second Floor plan"><img src="images/second-floor.png" alt="Second Floor plan of ITCC Penampang Commercial Shopping Mall" width="1612" height="833" loading="lazy"></button>
+      <div class="plan-wrap" data-floor="2"><img src="images/second-floor.png" alt="Second Floor plan of ITCC Penampang Commercial Shopping Mall" width="1612" height="833" loading="lazy"><div class="lots" aria-hidden="true"></div></div>
     </div>
     <div class="plan-panel" role="tabpanel" id="ppanel-3" aria-labelledby="ptab-3" hidden>
-      <button type="button" class="plan-zoom" aria-label="Enlarge Third Floor plan"><img src="images/third-floor.png" alt="Third Floor plan of ITCC Penampang Commercial Shopping Mall" width="1614" height="837" loading="lazy"></button>
+      <div class="plan-wrap" data-floor="3"><img src="images/third-floor.png" alt="Third Floor plan of ITCC Penampang Commercial Shopping Mall" width="1614" height="837" loading="lazy"><div class="lots" aria-hidden="true"></div></div>
     </div>
   </div>
-  <p class="plan-note">Floor plans are a preview for general guidance. Unit numbers are being confirmed.</p>
+  <p class="plan-note">Floor plans are a preview for general guidance. Shop names and phone numbers shown on hover are sample data.</p>
 </section>
 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged floor plan" hidden>
   <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close">Close ✕</button>
-  <div class="lightbox-scroll"><img id="lightboxImg" alt=""></div>
+  <div class="lightbox-scroll"><div class="plan-wrap" id="lbWrap"><img id="lightboxImg" alt=""><div class="lots" id="lbLots" aria-hidden="true"></div></div></div>
 </div>
 
 <section class="band" id="visit">
@@ -168,7 +168,10 @@
   <div class="copy">© <span id="yr"></span> ITCC Shopping Mall. All rights reserved.</div>
 </footer>
 
+<div class="lot-tip" id="lotTip" role="tooltip" hidden></div>
 <script src="stores.js"></script>
+<script src="lots.js"></script>
+<script src="lot-shops.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

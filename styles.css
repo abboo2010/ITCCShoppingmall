@@ -156,14 +156,34 @@ h2{font-size:clamp(34px,5vw,48px);line-height:1.05;margin-top:6px}
 /* floor plans */
 .plan-card{background:#fff;border-radius:32px;padding:16px;box-shadow:0 10px 24px rgba(18,40,29,.1)}
 .plan-panel[hidden]{display:none}
-.plan-zoom{display:block;width:100%;border:0;padding:0;background:transparent;border-radius:20px;overflow:hidden;cursor:zoom-in}
-.plan-zoom img{display:block;width:100%;height:auto}
 .plan-note{margin:0;color:var(--muted);font-size:14px;font-weight:600}
 .lightbox{position:fixed;inset:0;z-index:50;background:rgba(18,40,29,.92);display:flex;flex-direction:column}
 .lightbox[hidden]{display:none}
 .lightbox-close{align-self:flex-end;margin:14px;border:0;border-radius:999px;background:var(--yellow);color:var(--ink);font:700 16px 'Nunito',sans-serif;padding:12px 22px;cursor:pointer}
 .lightbox-scroll{flex:1;overflow:auto;padding:0 14px 20px;-webkit-overflow-scrolling:touch}
-.lightbox-scroll img{display:block;width:max(100%,1100px);max-width:none;height:auto;margin:0 auto;background:#fff;border-radius:12px}
 
 /* keep anchored headings clear of the sticky header */
 .section,.band{scroll-margin-top:84px}
+
+/* interactive shop lots (3D hover) */
+.plan-tools{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.plan-tools .btn{padding:11px 22px;box-shadow:0 6px 14px rgba(18,40,29,.12)}
+.plan-wrap{position:relative;border-radius:20px;overflow:visible}
+.plan-wrap>img{display:block;width:100%;height:auto;border-radius:20px}
+.lots{position:absolute;inset:0;perspective:800px;pointer-events:none}
+.lot{position:absolute;pointer-events:auto;cursor:pointer;border-radius:3px;
+  transform-style:preserve-3d;transform:translateZ(0);
+  transition:transform .16s ease-out,box-shadow .16s ease-out,background-color .16s}
+.lot.is-active{z-index:5;background:rgba(15,107,63,.30);
+  box-shadow:0 0 0 2px var(--green),0 16px 18px rgba(18,40,29,.45);
+  transform:translateZ(22px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) scale(1.1)}
+.lightbox .plan-wrap{width:max(100%,1100px);margin:0 auto}
+.lightbox .plan-wrap>img{background:#fff;border-radius:12px}
+.lot-tip{position:fixed;z-index:80;pointer-events:none;background:var(--ink);color:#fff;border-radius:16px;
+  padding:12px 16px;min-width:170px;max-width:260px;display:flex;flex-direction:column;gap:4px;
+  box-shadow:0 12px 28px rgba(18,40,29,.4);font-size:14px}
+.lot-tip[hidden]{display:none}
+.lot-tip strong{font-family:'Fredoka',sans-serif;font-size:18px;font-weight:600;line-height:1.15}
+.lot-tip .tip-floor{color:var(--yellow);font-weight:700;font-size:12px;letter-spacing:.03em}
+.lot-tip .tip-phone{font-weight:600}
+@media (prefers-reduced-motion:reduce){.lot{transition:none}.lot.is-active{transform:none}}
