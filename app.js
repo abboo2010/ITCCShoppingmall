@@ -78,7 +78,11 @@
         var img = document.createElement("img");
         img.src = s.logo; img.alt = s.name + " logo"; img.loading = "lazy";
         logo.appendChild(img);
-      } else { logo.textContent = "[LOGO]"; }
+      } else {
+        var ph = document.createElement("img");
+        ph.src = "logo.png"; ph.alt = "ITCC Penampang Shopping Mall"; ph.loading = "lazy"; ph.className = "default-logo";
+        logo.appendChild(ph);
+      }
       card.appendChild(logo);
       card.appendChild(el("h3", null, s.name));
       var meta = el("div", "meta");

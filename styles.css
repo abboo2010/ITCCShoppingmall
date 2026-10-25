@@ -188,3 +188,5 @@ h2{font-size:clamp(34px,5vw,48px);line-height:1.05;margin-top:6px}
 .lot-tip .tip-floor{color:var(--yellow);font-weight:700;font-size:12px;letter-spacing:.03em}
 .lot-tip .tip-phone{font-weight:600}
 @media (prefers-reduced-motion:reduce){.lot{transition:none}.lot.is-active{transform:none}}
+.store .logo-ph img.default-logo{max-width:70%;opacity:.9}
+.store .logo-ph{background:#fff;border:1px solid #f1e8d4}
