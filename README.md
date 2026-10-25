@@ -1,7 +1,10 @@
 # ITCCMALL
 
-ITCC Penampang Commercial Shopping Mall - floor plans viewer (Ground to Third Floor).
+ITCC Penampang Shopping Mall website (Style B, "Fresh & Vibrant"): store directory, dining, events, floor plans, visit/map and leasing enquiry.
 
-- `images/` plans shown on the site (currently ChatGPT-enlarged; lot labels unverified)
-- `images-faithful/` sharpened versions that keep the original labels
-- `originals/` original screenshots
+- `index.html`, `styles.css`, `app.js` - the site
+- `stores.js` - dummy stores/events/hours (replace with the real ITCC data)
+- `images/` - floor plans shown on the site (currently ChatGPT-enlarged; unit labels unverified)
+- `images-faithful/` - sharpened versions that keep the original labels
+- `originals/` - original screenshots
+- `floor-plans-standalone.html` - the earlier standalone tabbed viewer

@@ -1,155 +1,174 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Floor Plans – ITCC Penampang Commercial Shopping Mall</title>
-<style>
-  body {
-    margin: 0;
-    padding: 24px;
-    background: #fff;
-    color: #333;
-    font-family: Georgia, "Times New Roman", serif;
-  }
-  h1 {
-    font-weight: normal;
-    font-size: 28px;
-    margin: 0 0 14px;
-  }
-  .tabs {
-    max-width: 960px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background: #fff;
-    padding: 4px;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  /* Tab bar */
-  .tab-list {
-    display: flex;
-    gap: 4px;
-    margin: 0;
-    padding: 4px 4px 0;
-    list-style: none;
-    background: #ededed;
-    border: 1px solid #d5d5d5;
-    border-radius: 5px;
-  }
-  .tab-list button {
-    font: inherit;
-    font-size: 13px;
-    padding: 8px 18px;
-    cursor: pointer;
-    color: #555;
-    background: #e6e6e6;
-    border: 1px solid #d0d0d0;
-    border-bottom: none;
-    border-radius: 5px 5px 0 0;
-  }
-  .tab-list button:hover { background: #f0f0f0; }
-  .tab-list button[aria-selected="true"] {
-    background: #fff;
-    color: #222;
-    font-weight: bold;
-    padding-bottom: 9px;
-    margin-bottom: -1px;
-  }
-  .tab-list button:focus-visible { outline: 2px solid #3b7ddd; outline-offset: 1px; }
-  /* Panels */
-  .tab-panel { padding: 14px 6px 6px; }
-  .tab-panel[hidden] { display: none; }
-  .tab-panel img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-  .missing {
-    display: none;
-    padding: 40px 20px;
-    text-align: center;
-    color: #a33;
-    border: 1px dashed #c99;
-    background: #fff6f6;
-    font-size: 14px;
-  }
-  @media (max-width: 560px) {
-    body { padding: 12px; }
-    .tab-list button { padding: 7px 10px; font-size: 12px; }
-  }
-</style>
+<title>ITCC Penampang Shopping Mall</title>
+<meta name="description" content="Shop, dine and play at ITCC Shopping Mall, Penampang, Sabah. Store directory, dining, events, mall map and leasing enquiries.">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<h1>Floor Plans</h1>
+<header class="topbar">
+  <a class="brand" href="#top"><img src="logo.png" alt="ITCC Penampang Shopping Mall"></a>
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">Menu</button>
+  <nav id="nav" class="nav">
+    <a href="#stores">Stores</a>
+    <a href="#dining">Dining</a>
+    <a href="#events">Events</a>
+    <a href="#floorplans">Floor Plans</a>
+    <a href="#visit" class="nav-cta">Visit Us</a>
+  </nav>
+</header>
 
-<div class="tabs">
-  <div class="tab-list" role="tablist" aria-label="Floor plans">
-    <button role="tab" id="tab-g" aria-controls="panel-g" aria-selected="true">Ground Floor</button>
-    <button role="tab" id="tab-1" aria-controls="panel-1" aria-selected="false" tabindex="-1">First Floor</button>
-    <button role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" tabindex="-1">Second Floor</button>
-    <button role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" tabindex="-1">Third Floor</button>
-  </div>
+<main id="top">
 
-  <div class="tab-panel" role="tabpanel" id="panel-g" aria-labelledby="tab-g">
-    <img src="images/ground-floor.png" alt="Ground Floor plan – ITCC Penampang Commercial Shopping Mall">
-    <div class="missing">Missing file: images/ground-floor.png</div>
+<section class="hero">
+  <div class="blob blob-green"></div>
+  <div class="blob blob-red"></div>
+  <div class="blob blob-yellow"></div>
+  <div class="hero-text">
+    <span class="pill-tag">New this week at ITCC</span>
+    <h1>Shop. Eat.<br><span class="green">Play.</span> Repeat!</h1>
+    <p>Your family's favourite mall in Penampang, with fashion, food, kids' fun and festive deals all year round.</p>
+    <form class="search" id="heroSearch" role="search">
+      <label for="heroQ" class="sr">Search a store</label>
+      <input id="heroQ" type="search" placeholder="Search a store, brand or food…">
+      <button type="submit">Find a Store</button>
+    </form>
+    <div class="chips">
+      <button class="chip" data-cat="Fashion">Fashion</button>
+      <button class="chip" data-cat="Food">Food Court</button>
+      <button class="chip" data-cat="Kids">Kids</button>
+      <button class="chip" data-cat="Services">Services</button>
+    </div>
+    <div class="open-now" id="openNow"></div>
   </div>
-  <div class="tab-panel" role="tabpanel" id="panel-1" aria-labelledby="tab-1" hidden>
-    <img src="images/first-floor.png" alt="First Floor plan – ITCC Penampang Commercial Shopping Mall">
-    <div class="missing">Missing file: images/first-floor.png</div>
+  <div class="hero-card">
+    <div class="photo-ph">[MALL PHOTO OR PROMO BANNER]</div>
+    <div class="hero-card-text"><strong>Weekend Promotion</strong><span>[DATES] · Ground Floor</span></div>
   </div>
-  <div class="tab-panel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden>
-    <img src="images/second-floor.png" alt="Second Floor plan – ITCC Penampang Commercial Shopping Mall">
-    <div class="missing">Missing file: images/second-floor.png</div>
+</section>
+
+<section class="section" id="stores">
+  <div class="section-head">
+    <div><div class="eyebrow">STORE DIRECTORY</div><h2>Find your favourite store</h2></div>
+    <div class="result-count" id="resultCount" aria-live="polite"></div>
   </div>
-  <div class="tab-panel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" hidden>
-    <img src="images/third-floor.png" alt="Third Floor plan – ITCC Penampang Commercial Shopping Mall">
-    <div class="missing">Missing file: images/third-floor.png</div>
+  <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+  <div class="store-grid" id="storeGrid"></div>
+</section>
+
+<section class="band" id="dining">
+  <div class="band-inner">
+    <div class="eyebrow yellow">DINING</div>
+    <h2>Hungry? We've got you.</h2>
+    <div class="card-row">
+      <article class="card"><div class="photo-ph">[FOOD PHOTO]</div><div class="card-body"><span class="tag">Third Floor · 10 AM – 10 PM</span><h3>Food Court</h3><p>A busy hall of local favourites: nasi lemak, laksa, noodles, grilled chicken and fresh juices. (Dummy text)</p></div></article>
+      <article class="card"><div class="photo-ph">[FOOD PHOTO]</div><div class="card-body"><span class="tag">Ground Floor · 9 AM – 9 PM</span><h3>Kopi Corner</h3><p>Freshly brewed Sabah coffee, kaya toast and light breakfasts in a relaxed café. (Dummy text)</p></div></article>
+      <article class="card"><div class="photo-ph">[FOOD PHOTO]</div><div class="card-body"><span class="tag">First Floor · 11 AM – 10 PM</span><h3>Spice Route Kitchen</h3><p>Family-style dishes with Indian and Southeast Asian flavours, great for group dinners. (Dummy text)</p></div></article>
+      <article class="card"><div class="photo-ph">[FOOD PHOTO]</div><div class="card-body"><span class="tag">Ground Floor · 8 AM – 8 PM</span><h3>Borneo Bakery</h3><p>Warm buns, cakes and traditional kuih baked fresh every morning. (Dummy text)</p></div></article>
+      <article class="card"><div class="photo-ph">[FOOD PHOTO]</div><div class="card-body"><span class="tag">First Floor · 11 AM – 10 PM</span><h3>Sweet Tooth Dessert</h3><p>Shaved ice, ice cream, bubble tea and sweet treats for the whole family. (Dummy text)</p></div></article>
+      <article class="card"><div class="photo-ph">[FOOD PHOTO]</div><div class="card-body"><span class="tag">Second Floor · 10 AM – 10 PM</span><h3>Fast Food &amp; Snacks</h3><p>Burgers, fried chicken and quick bites near the kids' play area. (Dummy text)</p></div></article>
+    </div>
   </div>
+</section>
+
+<section class="section" id="events">
+  <div class="section-head">
+    <div><div class="eyebrow">PROMOTIONS &amp; EVENTS</div><h2>What's on at ITCC</h2></div>
+  </div>
+  <div class="event-row" id="eventRow"></div>
+</section>
+
+<section class="section" id="floorplans">
+  <div class="section-head">
+    <div><div class="eyebrow">FLOOR PLANS</div><h2>Find your way around</h2></div>
+    <div class="result-count">Tap a plan to enlarge it</div>
+  </div>
+  <div class="filters" id="planTabs" role="tablist" aria-label="Choose floor">
+    <button type="button" role="tab" id="ptab-g" aria-controls="ppanel-g" aria-selected="true" data-key="g">Ground Floor</button>
+    <button type="button" role="tab" id="ptab-1" aria-controls="ppanel-1" aria-selected="false" tabindex="-1" data-key="1">First Floor</button>
+    <button type="button" role="tab" id="ptab-2" aria-controls="ppanel-2" aria-selected="false" tabindex="-1" data-key="2">Second Floor</button>
+    <button type="button" role="tab" id="ptab-3" aria-controls="ppanel-3" aria-selected="false" tabindex="-1" data-key="3">Third Floor</button>
+  </div>
+  <div class="plan-card">
+    <div class="plan-panel" role="tabpanel" id="ppanel-g" aria-labelledby="ptab-g">
+      <button type="button" class="plan-zoom" aria-label="Enlarge Ground Floor plan"><img src="images/ground-floor.png" alt="Ground Floor plan of ITCC Penampang Commercial Shopping Mall" width="1516" height="910"></button>
+    </div>
+    <div class="plan-panel" role="tabpanel" id="ppanel-1" aria-labelledby="ptab-1" hidden>
+      <button type="button" class="plan-zoom" aria-label="Enlarge First Floor plan"><img src="images/first-floor.png" alt="First Floor plan of ITCC Penampang Commercial Shopping Mall" width="1614" height="833" loading="lazy"></button>
+    </div>
+    <div class="plan-panel" role="tabpanel" id="ppanel-2" aria-labelledby="ptab-2" hidden>
+      <button type="button" class="plan-zoom" aria-label="Enlarge Second Floor plan"><img src="images/second-floor.png" alt="Second Floor plan of ITCC Penampang Commercial Shopping Mall" width="1612" height="833" loading="lazy"></button>
+    </div>
+    <div class="plan-panel" role="tabpanel" id="ppanel-3" aria-labelledby="ptab-3" hidden>
+      <button type="button" class="plan-zoom" aria-label="Enlarge Third Floor plan"><img src="images/third-floor.png" alt="Third Floor plan of ITCC Penampang Commercial Shopping Mall" width="1614" height="837" loading="lazy"></button>
+    </div>
+  </div>
+  <p class="plan-note">Floor plans are a preview for general guidance. Unit numbers are being confirmed.</p>
+</section>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged floor plan" hidden>
+  <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close">Close ✕</button>
+  <div class="lightbox-scroll"><img id="lightboxImg" alt=""></div>
 </div>
 
-<script>
-(function () {
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
-  var panels = Array.prototype.slice.call(document.querySelectorAll('[role="tabpanel"]'));
-  var keys = ['g', '1', '2', '3'];
+<section class="band" id="visit">
+  <div class="band-inner two-col">
+    <div>
+      <div class="eyebrow yellow">VISIT US</div>
+      <h2>Come say hello</h2>
+      <dl class="visit-list">
+        <div><dt>Opening hours</dt><dd>10:00 AM – 10:00 PM, daily (dummy hours)</dd></div>
+        <div><dt>Address</dt><dd>ITCC Penampang Shopping Mall, Penampang, Sabah (dummy address, please confirm)</dd></div>
+        <div><dt>Parking</dt><dd>Free parking for the first 2 hours, then RM1 per hour (dummy rates)</dd></div>
+        <div><dt>Contact</dt><dd>+60 88-000 000 (dummy number)</dd></div>
+      </dl>
+      <div class="btn-row">
+        <a class="btn yellow" href="https://www.google.com/maps/dir/?api=1&amp;destination=ITCC+Penampang+Shopping+Mall" target="_blank" rel="noopener">Get Directions</a>
+        <a class="btn white" href="https://wa.me/60880000000" target="_blank" rel="noopener">WhatsApp Us</a>
+      </div>
+    </div>
+    <div class="map-embed"><iframe title="Map showing ITCC Penampang Shopping Mall" src="https://www.google.com/maps?q=ITCC+Penampang+Shopping+Mall&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+  </div>
+</section>
 
-  function show(index, focus) {
-    tabs.forEach(function (t, i) {
-      var on = i === index;
-      t.setAttribute('aria-selected', on ? 'true' : 'false');
-      t.tabIndex = on ? 0 : -1;
-      panels[i].hidden = !on;
-    });
-    if (focus) tabs[index].focus();
-    try { history.replaceState(null, '', '#' + keys[index]); } catch (e) {}
-  }
+<section class="section two-col" id="leasing">
+  <div>
+    <div class="eyebrow">LEASING</div>
+    <h2>Want your shop at ITCC?</h2>
+    <p class="lead">Join Penampang's busy shopping destination. Tell us about your business and our leasing team will get in touch.</p>
+  </div>
+  <form class="lease-form" id="leaseForm" novalidate>
+    <div class="field"><label for="ln">Your name</label><input id="ln" name="name" type="text" required autocomplete="name"></div>
+    <div class="field"><label for="lb">Business name</label><input id="lb" name="business" type="text" required></div>
+    <div class="field"><label for="lp">Phone / WhatsApp</label><input id="lp" name="phone" type="tel" required autocomplete="tel"></div>
+    <div class="field"><label for="le">Email</label><input id="le" name="email" type="email" required autocomplete="email"></div>
+    <div class="field full"><label for="lm">Tell us about your business</label><textarea id="lm" name="message" rows="4"></textarea></div>
+    <button class="btn red full" type="submit">Send Enquiry</button>
+    <p class="form-note full" id="formNote" role="status"></p>
+  </form>
+</section>
 
-  tabs.forEach(function (t, i) {
-    t.addEventListener('click', function () { show(i); });
-    t.addEventListener('keydown', function (e) {
-      var n = null;
-      if (e.key === 'ArrowRight') n = (i + 1) % tabs.length;
-      if (e.key === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length;
-      if (e.key === 'Home') n = 0;
-      if (e.key === 'End') n = tabs.length - 1;
-      if (n !== null) { e.preventDefault(); show(n, true); }
-    });
-  });
+</main>
 
-  // Show a clear message if an image file is not in place yet
-  document.querySelectorAll('.tab-panel img').forEach(function (img) {
-    img.addEventListener('error', function () {
-      img.style.display = 'none';
-      img.nextElementSibling.style.display = 'block';
-    });
-  });
+<footer class="footer">
+  <div class="footer-top">
+    <div><img class="footer-logo" src="logo.png" alt="ITCC Penampang Shopping Mall"><p>ITCC Penampang Shopping Mall, Penampang, Sabah</p></div>
+    <div class="footer-links">
+      <div><b>Explore</b><a href="#stores">Stores</a><a href="#dining">Dining</a><a href="#events">Events</a></div>
+      <div><b>Visit</b><a href="#floorplans">Floor Plans</a><a href="#visit">Directions</a><a href="#visit">Parking</a></div>
+      <div><b>Business</b><a href="#leasing">Leasing</a><a href="#visit">Contact</a></div>
+    </div>
+  </div>
+  <div class="copy">© <span id="yr"></span> ITCC Shopping Mall. All rights reserved.</div>
+</footer>
 
-  // Open the floor given in the URL (#g, #1, #2, #3)
-  var start = keys.indexOf(location.hash.replace('#', ''));
-  show(start >= 0 ? start : 0);
-})();
-</script>
+<script src="stores.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
