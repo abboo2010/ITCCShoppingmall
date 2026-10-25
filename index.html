@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Floor Plans – ITCC Penampang Commercial Shopping Mall</title>
+<style>
+  body {
+    margin: 0;
+    padding: 24px;
+    background: #fff;
+    color: #333;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+  h1 {
+    font-weight: normal;
+    font-size: 28px;
+    margin: 0 0 14px;
+  }
+  .tabs {
+    max-width: 960px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+    padding: 4px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  /* Tab bar */
+  .tab-list {
+    display: flex;
+    gap: 4px;
+    margin: 0;
+    padding: 4px 4px 0;
+    list-style: none;
+    background: #ededed;
+    border: 1px solid #d5d5d5;
+    border-radius: 5px;
+  }
+  .tab-list button {
+    font: inherit;
+    font-size: 13px;
+    padding: 8px 18px;
+    cursor: pointer;
+    color: #555;
+    background: #e6e6e6;
+    border: 1px solid #d0d0d0;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+  }
+  .tab-list button:hover { background: #f0f0f0; }
+  .tab-list button[aria-selected="true"] {
+    background: #fff;
+    color: #222;
+    font-weight: bold;
+    padding-bottom: 9px;
+    margin-bottom: -1px;
+  }
+  .tab-list button:focus-visible { outline: 2px solid #3b7ddd; outline-offset: 1px; }
+  /* Panels */
+  .tab-panel { padding: 14px 6px 6px; }
+  .tab-panel[hidden] { display: none; }
+  .tab-panel img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .missing {
+    display: none;
+    padding: 40px 20px;
+    text-align: center;
+    color: #a33;
+    border: 1px dashed #c99;
+    background: #fff6f6;
+    font-size: 14px;
+  }
+  @media (max-width: 560px) {
+    body { padding: 12px; }
+    .tab-list button { padding: 7px 10px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Floor Plans</h1>
+
+<div class="tabs">
+  <div class="tab-list" role="tablist" aria-label="Floor plans">
+    <button role="tab" id="tab-g" aria-controls="panel-g" aria-selected="true">Ground Floor</button>
+    <button role="tab" id="tab-1" aria-controls="panel-1" aria-selected="false" tabindex="-1">First Floor</button>
+    <button role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" tabindex="-1">Second Floor</button>
+    <button role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" tabindex="-1">Third Floor</button>
+  </div>
+
+  <div class="tab-panel" role="tabpanel" id="panel-g" aria-labelledby="tab-g">
+    <img src="images/ground-floor.png" alt="Ground Floor plan – ITCC Penampang Commercial Shopping Mall">
+    <div class="missing">Missing file: images/ground-floor.png</div>
+  </div>
+  <div class="tab-panel" role="tabpanel" id="panel-1" aria-labelledby="tab-1" hidden>
+    <img src="images/first-floor.png" alt="First Floor plan – ITCC Penampang Commercial Shopping Mall">
+    <div class="missing">Missing file: images/first-floor.png</div>
+  </div>
+  <div class="tab-panel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden>
+    <img src="images/second-floor.png" alt="Second Floor plan – ITCC Penampang Commercial Shopping Mall">
+    <div class="missing">Missing file: images/second-floor.png</div>
+  </div>
+  <div class="tab-panel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" hidden>
+    <img src="images/third-floor.png" alt="Third Floor plan – ITCC Penampang Commercial Shopping Mall">
+    <div class="missing">Missing file: images/third-floor.png</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('[role="tabpanel"]'));
+  var keys = ['g', '1', '2', '3'];
+
+  function show(index, focus) {
+    tabs.forEach(function (t, i) {
+      var on = i === index;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      panels[i].hidden = !on;
+    });
+    if (focus) tabs[index].focus();
+    try { history.replaceState(null, '', '#' + keys[index]); } catch (e) {}
+  }
+
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { show(i); });
+    t.addEventListener('keydown', function (e) {
+      var n = null;
+      if (e.key === 'ArrowRight') n = (i + 1) % tabs.length;
+      if (e.key === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length;
+      if (e.key === 'Home') n = 0;
+      if (e.key === 'End') n = tabs.length - 1;
+      if (n !== null) { e.preventDefault(); show(n, true); }
+    });
+  });
+
+  // Show a clear message if an image file is not in place yet
+  document.querySelectorAll('.tab-panel img').forEach(function (img) {
+    img.addEventListener('error', function () {
+      img.style.display = 'none';
+      img.nextElementSibling.style.display = 'block';
+    });
+  });
+
+  // Open the floor given in the URL (#g, #1, #2, #3)
+  var start = keys.indexOf(location.hash.replace('#', ''));
+  show(start >= 0 ? start : 0);
+})();
+</script>
+</body>
+</html>
