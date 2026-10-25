@@ -14,7 +14,29 @@ import cv2, json, numpy as np
 FLOORS = [("g", "ground-floor", "G"), ("1", "first-floor", "1"),
           ("2", "second-floor", "2"), ("3", "third-floor", "3")]
 
-def detect(path, d=10, hk=18, vk=14):
+# Bright-green lots (e.g. G94, G109-G122 on the Ground Floor) are only accepted inside these
+# boxes (x0, y0, x1, y1) so green lawns / banquet halls are not picked up.
+GREEN_BOXES = {"ground-floor": (380, 620, 1235, 705)}
+
+def row(x0, x1, n, y0, y1):
+    w = (x1 - x0) / n
+    return [(round(x0 + i * w), y0, round(w), y1 - y0) for i in range(n)]
+
+# Lots the detector cannot see (light/odd colours, big units). Format: (x, y, w, h) in image pixels.
+EXTRA = {
+    "ground-floor": [(840, 228, 248, 288)],                              # anchor tenant
+    "first-floor": row(503, 697, 7, 90, 124) + [(785, 88, 85, 82), (1160, 178, 92, 120)]
+                   + row(1393, 1583, 4, 548, 628)[:3] + row(1393, 1583, 4, 632, 716),
+    "second-floor": row(1378, 1578, 4, 548, 628)[:3] + row(1378, 1578, 4, 632, 712)
+                    + [(390, 430, 102, 32), (495, 430, 135, 32), (1285, 492, 92, 54)],
+}
+
+def overlaps(a, b):
+    ix = max(0, min(a[0]+a[2], b[0]+b[2]) - max(a[0], b[0]))
+    iy = max(0, min(a[1]+a[3], b[1]+b[3]) - max(a[1], b[1]))
+    return ix * iy > 0.3 * min(a[2]*a[3], b[2]*b[3])
+
+def detect(path, d=10, hk=18, vk=14, green_box=None):
     img = cv2.imread(path); H, W = img.shape[:2]
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     bg = cv2.medianBlur(gray, 25)
@@ -31,7 +53,11 @@ def detect(path, d=10, hk=18, vk=14):
         if a / (w * h) < 0.72: continue
         m = lab[y:y+h, x:x+w] == i
         sat = hsv[y:y+h, x:x+w, 1][m].mean(); hue = hsv[y:y+h, x:x+w, 0][m].mean()
-        if not (28 < sat <= 140 and 14 <= hue <= 34 and not (hue > 27 and sat > 100)): continue
+        tan_ok = 28 < sat <= 140 and 14 <= hue <= 34 and not (hue > 27 and sat > 100)
+        green_ok = (green_box is not None and 36 <= hue <= 56 and sat > 150
+                    and green_box[0] <= x and x + w <= green_box[2]
+                    and green_box[1] <= y and y + h <= green_box[3])
+        if not (tan_ok or green_ok): continue
         if dk[y:y+h, x:x+w][m].mean() > 0.30: continue
         out.append((int(x), int(y), int(w), int(h)))
     out.sort(key=lambda r: (round(r[1] / 20), r[0]))
@@ -39,7 +65,10 @@ def detect(path, d=10, hk=18, vk=14):
 
 plan = {}
 for key, name, prefix in FLOORS:
-    cells, (W, H) = detect(f"images/{name}.png")
+    cells, (W, H) = detect(f"images/{name}.png", green_box=GREEN_BOXES.get(name))
+    for ex in EXTRA.get(name, []):
+        if not any(overlaps(ex, c) for c in cells): cells.append(ex)
+    cells.sort(key=lambda r: (round(r[1] / 20), r[0]))
     plan[key] = {"w": W, "h": H, "lots": [
         {"id": f"{prefix}-{i+1:03d}", "x": x, "y": y, "w": w, "h": h}
         for i, (x, y, w, h) in enumerate(cells)]}
